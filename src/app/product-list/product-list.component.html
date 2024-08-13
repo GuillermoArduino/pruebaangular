@@ -1,0 +1,44 @@
+<div>
+  <form>
+    <label for="category">Category:</label>
+    <!-- Añadido name="category" al control select -->
+    <select id="category" name="category" [(ngModel)]="selectedCategory" (change)="filterProducts()">
+      <option value="">All Categories</option>
+      <option value="Category 1">Category 1</option>
+      <option value="Category 2">Category 2</option>
+      <option value="Category 3">Category 3</option>
+    </select>
+
+    <label for="itemsPerPage">Items per page:</label>
+    <!-- Añadido name="itemsPerPage" al control input -->
+    <input id="itemsPerPage" name="itemsPerPage" type="number" [(ngModel)]="itemsPerPage" min="1" />
+  </form>
+
+  <table mat-table [dataSource]="filteredProducts" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let product">{{ product.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Category</th>
+      <td mat-cell *matCellDef="let product">{{ product.category }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let product">{{ product.price | currency }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let product">
+        <button mat-button (click)="openModal(product)">View</button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="['name', 'category', 'price', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'category', 'price', 'actions'];"></tr>
+  </table>
+</div>
